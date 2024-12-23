@@ -14,13 +14,24 @@ test('test', async ({ page }) => {
   if(await page.getByRole('button', { name: 'Dismiss' }).isHidden){
     await page.getByRole('button', { name: 'Dismiss' }).click();
   }
-  await page.getByPlaceholder('Search job titles or companies').click();
-  await page.getByPlaceholder('Search job titles or companies').fill('qa visa');
+//   if asking for signin attempt
+  if((await page.title()).includes('Sign In')){
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await page.locator('.text-input').first().click();
+    await page.getByLabel('Email or phone').fill('albertbaby266192@gmail.com');
+    await page.getByLabel('Password', { exact: true }).click();
+    await page.getByLabel('Password', { exact: true }).fill('');
+  }
+
+  await page.getByPlaceholder('Search job titles or companies').fill('qa visa');   
   await page.getByPlaceholder('Location').click();
-  await page.getByLabel('Jobs', { exact: true }).locator('section').filter({ hasText: 'United States Los Angeles' }).getByRole('button').click();
-  await page.getByPlaceholder('Location').click();
+//   await page.getByRole('button', { name: 'Clear text' }).click();
+  await page.getByPlaceholder('Location').clear();
   await page.getByPlaceholder('Location').fill('Germany');
   await page.getByRole('option', { name: 'Germany', exact: true }).click();
-}
- 
-  
+// Change n value
+//     await page.getByRole('link', { name: 'Restaurant General Manager', exact: true }).nth(1).click();
+//  show more
+//     await page.getByLabel('i18n_show_more').click();
+
+});
